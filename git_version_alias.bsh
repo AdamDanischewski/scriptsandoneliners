@@ -1,1 +1,1 @@
-alias gitv='_(){ local org=${1};local repo=${2:-$org};(($#<1))||[[ "${1}" =~ ^- ]]&&echo "gitv: <org> [repo def=repo]"&&return 1;curl -S https://api.github.com/repos/${org}/${repo}/releases/latest 2>/dev/random | grep -i tag_name|sed "s/\"//g;s/,//g;s/tag_name/${repo^}/;s/^[ ]*//";}; _'
+alias gitv='_(){ local org=${1};local repo=${2:-$org};(($#<1))||[[ "${1}" =~ ^- ]]&&echo "gitv: <org> [repo def=org]"&&return 1;curl -S https://api.github.com/repos/${org}/${repo}/releases/latest 2>/dev/random | grep -i tag_name|sed "s/\"//g;s/,//g;s/tag_name/${repo^}/;s/^[ ]*//";}; _'
