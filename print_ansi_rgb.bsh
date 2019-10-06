@@ -1,0 +1,122 @@
+#!/bin/bash
+  ######################################################################
+ ######################################################################
+## Author: Adam Michael Danischewski 
+## GitHub: https://github.com/AdamDanischewski/scriptsandoneliners
+## Created Date: 2019-10-06
+## Name: print_ansi_rgb.bsh
+## Version: v0.01
+## Last Modified: 2019-10-06
+## Issues: If you find any issues emai1 me at <my first name> (dot) 
+##         <my last name> (at) gmail (dot) com. 
+##
+## Prints the full ansi color mapping to RGB (decimal) and HEX in Ansi 
+## color (\x1b[38;5;<ansi>m) and Truecolor (\x1b[38;2;<R>;<G>;<B>m).  
+##
+## Look-up values gleened from: 
+## https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
+## 
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+##
+## Released under Creative Commons License: CC BY-SA 4.0
+## https://creativecommons.org/licenses/by-sa/4.0/
+ ######################################################################
+  ######################################################################
+
+## Parse RGB hex tuples. 
+## <Arg 1> - Hex: Input hex value [[:xdigit]]{6}
+## <Arg 2> - String: Tuple [r|g|b]
+function get_rgbtuple() { 
+local hexrgb="${1}" 
+local tuple_flag="${2}" 
+local tuple_fmt="${3:-x}" 
+local tuple="" 
+case "${tuple_flag}" in 
+ r|R) 
+  tuple=${hexrgb:0:2}
+  ;; 
+ g|G) 
+  tuple=${hexrgb:2:2}
+  ;; 
+ b|B) 
+  tuple=${hexrgb:4:2}
+  ;; 
+esac
+echo $((0x${tuple}))
+}
+
+function get_rgb() { 
+local -i ansi=$((${1:-1}+1))
+## https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
+local -a rgb=("000000" "800000" "008000" "808000" "000080" \
+"800080" "008080" "c0c0c0" "808080" "ff0000" "00ff00" "ffff00" \ 
+"0000ff" "ff00ff" "00ffff" "ffffff" "000000" "00005f" "000087" \
+"0000af" "0000d7" "0000ff" "005f00" "005f5f" "005f87" "005faf" \
+"005fd7" "005fff" "008700" "00875f" "008787" "0087af" "0087d7" \
+"0087ff" "00af00" "00af5f" "00af87" "00afaf" "00afd7" "00afff" \
+"00d700" "00d75f" "00d787" "00d7af" "00d7d7" "00d7ff" "00ff00" \
+"00ff5f" "00ff87" "00ffaf" "00ffd7" "00ffff" "5f0000" "5f005f" \
+"5f0087" "5f00af" "5f00d7" "5f00ff" "5f5f00" "5f5f5f" "5f5f87" \
+"5f5faf" "5f5fd7" "5f5fff" "5f8700" "5f875f" "5f8787" "5f87af" \
+"5f87d7" "5f87ff" "5faf00" "5faf5f" "5faf87" "5fafaf" "5fafd7" \
+"5fafff" "5fd700" "5fd75f" "5fd787" "5fd7af" "5fd7d7" "5fd7ff" \
+"5fff00" "5fff5f" "5fff87" "5fffaf" "5fffd7" "5fffff" "870000" \
+"87005f" "870087" "8700af" "8700d7" "8700ff" "875f00" "875f5f" \
+"875f87" "875faf" "875fd7" "875fff" "878700" "87875f" "878787" \
+"8787af" "8787d7" "8787ff" "87af00" "87af5f" "87af87" "87afaf" \
+"87afd7" "87afff" "87d700" "87d75f" "87d787" "87d7af" "87d7d7" \
+"87d7ff" "87ff00" "87ff5f" "87ff87" "87ffaf" "87ffd7" "87ffff" \
+"af0000" "af005f" "af0087" "af00af" "af00d7" "af00ff" "af5f00" \
+"af5f5f" "af5f87" "af5faf" "af5fd7" "af5fff" "af8700" "af875f" \
+"af8787" "af87af" "af87d7" "af87ff" "afaf00" "afaf5f" "afaf87" \
+"afafaf" "afafd7" "afafff" "afd700" "afd75f" "afd787" "afd7af" \
+"afd7d7" "afd7ff" "afff00" "afff5f" "afff87" "afffaf" "afffd7" \
+"afffff" "d70000" "d7005f" "d70087" "d700af" "d700d7" "d700ff" \
+"d75f00" "d75f5f" "d75f87" "d75faf" "d75fd7" "d75fff" "d78700" \
+"d7875f" "d78787" "d787af" "d787d7" "d787ff" "dfaf00" "dfaf5f" \
+"dfaf87" "dfafaf" "dfafdf" "dfafff" "dfdf00" "dfdf5f" "dfdf87" \
+"dfdfaf" "dfdfdf" "dfdfff" "dfff00" "dfff5f" "dfff87" "dfffaf" \
+"dfffdf" "dfffff" "ff0000" "ff005f" "ff0087" "ff00af" "ff00df" \
+"ff00ff" "ff5f00" "ff5f5f" "ff5f87" "ff5faf" "ff5fdf" "ff5fff" \
+"ff8700" "ff875f" "ff8787" "ff87af" "ff87df" "ff87ff" "ffaf00" \
+"ffaf5f" "ffaf87" "ffafaf" "ffafdf" "ffafff" "ffdf00" "ffdf5f" \
+"ffdf87" "ffdfaf" "ffdfdf" "ffdfff" "ffff00" "ffff5f" "ffff87" \
+"ffffaf" "ffffdf" "ffffff" "080808" "121212" "1c1c1c" "262626" \
+"303030" "3a3a3a" "444444" "4e4e4e" "585858" "626262" "6c6c6c" \
+"767676" "808080" "8a8a8a" "949494" "9e9e9e" "a8a8a8" "b2b2b2" \
+"bcbcbc" "c6c6c6" "d0d0d0" "dadada" "e4e4e4" "eeeeee")
+if ((ansi<=256)); then 
+ printf "%s\n" "${rgb[${ansi}]}" 
+ return 0 
+else 
+ return 1
+fi
+}
+
+function print_rgb_ansi() { 
+local -i i=0
+local rgb_R
+local rgb_G
+local rgb_B
+local prgb_R
+local prgb_G
+local prgb_B
+local hex
+for i in {1..256}; do 
+ hex=$(get_rgb "${i}")
+ rgb_R=$(get_rgbtuple "${hex}" "r")
+ rgb_G=$(get_rgbtuple "${hex}" "g")
+ rgb_B=$(get_rgbtuple "${hex}" "b")
+ prgb_R=$(printf "%3s" $(get_rgbtuple "${hex}" "r"))
+ prgb_G=$(printf "%3s" $(get_rgbtuple "${hex}" "g"))
+ prgb_B=$(printf "%3s" $(get_rgbtuple "${hex}" "b"))
+ printf "\x1b[38;5;${i}mANSI COLOR: %3s\x1b[0m |" "${i}"
+ printf "\x1b[38;2;${rgb_R};${rgb_G};${rgb_B}mRGB/TRUECOLOR - RGB:%s,%s,%s\x1b[0m%s" "${prgb_R}" "${prgb_G}" "${prgb_B}" " |"
+ printf "\x1b[38;5;40m%s%s\n\x1b[0m" "HEX:0x" "${hex}"
+done 
+}
+
+print_rgb_ansi
+exit 0
