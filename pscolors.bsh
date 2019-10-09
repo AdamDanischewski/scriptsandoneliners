@@ -6,7 +6,7 @@
 ## GitHub: https://github.com/AdamDanischewski/scriptsandoneliners
 ## Created Date: 2019-10-08
 ## Name: pscolors.bsh
-## Version: v0.01
+## Version: v0.02
 ## Last Modified: 2019-10-08
 ## Issues: If you find any issues emai1 me at <my first name> (dot) 
 ##         <my last name> (at) gmail (dot) com. 
@@ -197,7 +197,7 @@ function print_rgb(){
   p_g=$(printf "%3s" "${g}")
   p_b=$(printf "%3s" "${b}")
   p_ANSI=$(printf "%3s" "${ANSI}")
-  printf "\\033[38;5;${ANSI}m████ ANSI ${p_ANSI}\\033[0m|\\033[38;5;${ANSI}m%s%s\\033[0m|\x1b[38;2;${xrgb_R};${xrgb_G};${xrgb_B}mxterm-256color - RGB/TRUECOLOR - RGB:%s,%s,%s\\033[0m%s \\033[38;2;${r};${g};${b}mActual terminal RGB: %s ████\\033[0m\n" "HEX:0x" "${xhex}" "${xprgb_R}" "${xprgb_G}" "${xprgb_B}" " |" "srgb(${p_r},${p_g},${p_b})"
+  printf "\\033[38;5;${ANSI}m████ ANSI ${p_ANSI}\\033[0m|\x1b[38;2;${xrgb_R};${xrgb_G};${xrgb_B}m%s%s\\033[0m|\x1b[38;2;${xrgb_R};${xrgb_G};${xrgb_B}mxterm-256color - RGB/TRUECOLOR - RGB:%s,%s,%s\\033[0m%s \\033[38;2;${r};${g};${b}mActual terminal RGB: %s ████\\033[0m\n" "HEX:0x" "${xhex}" "${xprgb_R}" "${xprgb_G}" "${xprgb_B}" " |" "srgb(${p_r},${p_g},${p_b})"
   get_next_x_coord
  }
 }
