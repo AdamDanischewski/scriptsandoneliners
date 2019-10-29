@@ -1,0 +1,1 @@
+alias lsvideo='lspci -vvvv -d "$(lspci -nn|sed -n "/VGA/p"|$(type -P grep) -oP "(?<=\[)[[:alnum:]]{4}:[[:alnum:]]{4}(?=\])")"'
