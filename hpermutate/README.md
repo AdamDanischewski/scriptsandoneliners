@@ -1,8 +1,12 @@
 # hpermutate 
 ##### A Bash implementation of B.R. Heaps' permutation algorithm 
-```bash
+
+```
 Usage: hpermutate <args=eg. 1 2 3 4 5>
- 
+
+ OPTIONS:   If env variable HPERMUTATE_RECURSIVELY is defined then 
+            run in recursive mode. Slow yet elegant. 
+             
  Eg. $> hpermutate 1 2 3 
         3 2 1
         2 3 1
