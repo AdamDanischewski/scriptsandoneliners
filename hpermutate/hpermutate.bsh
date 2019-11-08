@@ -6,7 +6,7 @@
 ## GitHub: https://github.com/AdamDanischewski/scriptsandoneliners/tree/master/hpermutate
 ## Created Date: 2019-11-08
 ## Name: hpermutate.bsh 
-## Version: v0.02
+## Version: v0.03
 ## Last Modified: 2019-11-08
 ## Issues: If you find any issues emai1 me at <my first name> (dot) 
 ##         <my last name> (at) gmail (dot) com. 
@@ -75,9 +75,9 @@ function heappermutation() {
 ## section on non-recursive implementations. 
 ## Arg 1 - Integer: Number of elements 
 function heappermutation_iterative() {
- declare -a c
- declare -i n=${1} 
- declare -i i=0
+ local -a c
+ local -i n=${1} 
+ local -i i=0
  for((i=0;i<n;i++)){ c[i]=0;}
  echo "$arr"  
  i=0
