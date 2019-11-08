@@ -1,9 +1,9 @@
 # hpermutate 
 ##### A Bash implementation of B.R. Heaps' permutation algorithm 
 ```bash
-Usage: ${0##*/} <args=eg. 1 2 3 4 5>
+Usage: hpermutate <args=eg. 1 2 3 4 5>
  
- Eg. $> ${0##*/} 1 2 3 
+ Eg. $> hpermutate 1 2 3 
         3 2 1
         2 3 1
         1 3 2
