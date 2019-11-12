@@ -6,7 +6,7 @@
 ## GitHub: https://github.com/AdamDanischewski/scriptsandoneliners
 ## Created Date: 2019-11-12
 ## Name: colorfiles.awk
-## Version: v0.00
+## Version: v0.01
 ## Last Modified: 2019-11-12
 ## Issues: If you find any issues emai1 me at <my first name> (dot) 
 ##         <my last name> (at) gmail (dot) com. 
@@ -44,6 +44,7 @@ function init_colormap() {
  colormap["blend"]="251;143;21"
  colormap["mp3"]="157;0;193"
  colormap["bsh"]="85;229;0"
+ colormap["sh"]=colormap["bsh"]
  colormap["awk"]=colormap["bsh"]
  colormap["php"]=colormap["bsh"]
  colormap["js"]=colormap["bsh"]
@@ -111,6 +112,8 @@ function wrap_color(s) {
   selc=colormap["jpeg"]	 
  } else if (tolower(s) ~ /\.png[*]?$/)   { 
   selc=colormap["png"]	              
+ } else if (tolower(s) ~ /\.sh[*]?$/)   { 
+  selc=colormap["sh"]	             
  } else if (tolower(s) ~ /\.mp4[*]?$/)   { 
   selc=colormap["mp4"]	             
  } else if (tolower(s) ~ /\.rar[*]?$/)   { 
@@ -199,7 +202,7 @@ Note: Make sure colors are not already present- you can sed the input.\n\
           $> alias colorfiles='sed \"s/\x1B[[0-9;]\\+[A-Za-z]//g\"|colorfiles.awk'\n\
           $> alias lsd='find \"$(pwd)\" -maxdepth 1 -type d -printf \"%T@\t%Tc %f/\\n\" 2>/dev/null|sort -n|cut -f 2-|tail -50|colorfiles'\n\
           $> alias lsf='find \"$(pwd)\" -maxdepth 1 -type f -printf \"%T@\t%Tc %f\\n\" 2>/dev/null|sort -n|cut -f 2-|tail -50|colorfiles'\n\
-          $> alias ls='/bin/ls -F -f1|colorfiles'\n")
+          $> alias ls='_(){ /bin/ls -F -f1 $@ |colorfiles;};_'\n")
  return usage_str
 }
 
