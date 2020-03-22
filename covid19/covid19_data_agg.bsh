@@ -1,8 +1,8 @@
 #!/bin/bash 
   ######################################################################
  ######################################################################
-## Author: A.M. Danischewski, Created Date: 20200322, Version: v1.0
-## File ID: 44087509cecf805b88fa0fed74433a97
+## Author: A.M. Danischewski, Created Date: 20200322, Version: v1.01
+## File ID: b7c4a0cb19767d4d88f1cbd49474dad4
 ## Last Modified: 2020-03-22
 ## Issues: If you find any issues emai1 me at my <first name> dot 
 ##         <my last name> at gmail dot com.  
@@ -31,7 +31,7 @@ declare URL='https://services1.arcgis.com/0MSEUqKaxRlEPj5g/arcgis/rest/services/
 declare SLEEP=600 
  ## Change DATA_DIR to a writable location where you want keep your data 
  ## eg. /mnt/hyper1/covid19
-declare DATA_DIR="~" 
+declare DATA_DIR="/home/${USER}/covid19" 
 declare FILE_PFX="covid_data_" 
 declare DATE_SFX="" 
 declare FILE_EXT="txt" 
