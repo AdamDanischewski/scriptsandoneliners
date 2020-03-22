@@ -1,0 +1,49 @@
+#!/bin/bash 
+  ######################################################################
+ ######################################################################
+## Author: A.M. Danischewski, Created Date: 20200322, Version: v1.0
+## File ID: 44087509cecf805b88fa0fed74433a97
+## Last Modified: 2020-03-22
+## Issues: If you find any issues emai1 me at my <first name> dot 
+##         <my last name> at gmail dot com.  
+##
+## This script fetches from arcgis.com COVID-19 data by default every 10 
+## minutes.  
+## 
+## This program is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with this program. If not, see <http://www.gnu.org/licenses/>.
+ ######################################################################
+  ######################################################################
+
+
+declare URL='https://services1.arcgis.com/0MSEUqKaxRlEPj5g/arcgis/rest/services/ncov_cases/FeatureServer/1/query?f=json&where=(Confirmed%20%3E%200)%20AND%20(Deaths%3E0)&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=Deaths%20desc%2CCountry_Region%20asc%2CProvince_State%20asc&outSR=102100&resultOffset=0&resultRecordCount=250&cacheHint=true' 
+ ## Fetch Interval (600 = 10 minutes) 
+declare SLEEP=600 
+ ## Change DATA_DIR to a writable location where you want keep your data 
+ ## eg. /mnt/hyper1/covid19
+declare DATA_DIR="~" 
+declare FILE_PFX="covid_data_" 
+declare DATE_SFX="" 
+declare FILE_EXT="txt" 
+declare FILE_NAME="" 
+
+mkdir -p "${DATA_DIR}" 
+
+while :; do 
+ DATE_SFX=$(date +"%m%d%Y%H%M")
+ FILE_NAME="${FILE_PFX}${DATE_SFX}.${FILE_EXT}"
+ curl -S "$URL" > "${DATA_DIR%%/}/${FILE_NAME}"
+ sleep ${SLEEP}
+done 
+
+exit 0
