@@ -1,0 +1,53 @@
+#!/usr/bin/env bash 
+
+  ######################################################################
+ ######################################################################
+## Author: Adam M. Danischewski, Created Date: 20190904, Version: v1.0
+## Major Revisions: 
+## Last Modified: 2019-09-04
+## Issues: If you find any issues emai1 me at my <first name> dot 
+##         <my last name> at gmail dot com.  
+##
+## This script will scan the directory where it is run generating a list 
+## of md5sum's for the files that are then sorted, for duplicates the 
+## first in the list is kept, all duplicates are deleted and symbolically 
+## linked to the kept file. 
+##
+## Note: Permissions are not checked, make sure you have enough 
+## permissions to delete and create files where it is run. 
+##
+## This program is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with this program. If not, see <http://www.gnu.org/licenses/>.
+ ######################################################################
+  ######################################################################
+
+[[ "${1}" =~ ^- ]] && echo "Usage: ${0##*/} <file_frag_suffix (e.g. bsh)>" && exit 0
+
+DUPES_FILE=/tmp/___dupes$$___
+LOG_FILE=/tmp/___dupes_log$$___ 
+pwd >> "${LOG_FILE}"
+ ## Generate a list of files with their md5sum's sorted and dumped to DUPES_FILE  
+find . -maxdepth 1 -type f -name "*${1}*" -exec md5sum {} \; 2>/dev/random | sort -k 1 > "${DUPES_FILE}"   
+while read a; do 
+ keep="" && while read b c; do 
+  [[ -z "${keep}" ]] && keep="${c##*/}" && continue ## Keep the first entry
+  echo "chattr -i \"${c##*/}\"" >> "${LOG_FILE}"
+  sudo chattr -i "${c##*/}" 
+  echo "rm \"${c##*/}\"" >> "${LOG_FILE}"
+  rm "${c##*/}"
+  echo "ln -s \"${keep}\" \"${c##*/}\"" >> "${LOG_FILE}"        
+  ln -s "${keep}" "${c##*/}"
+ done < <(grep "^${a}" "${DUPES_FILE}") 
+done < <(awk '{print $1}' "${DUPES_FILE}" | uniq -d) 
+
+exit 0
